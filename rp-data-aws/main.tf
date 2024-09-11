@@ -18,7 +18,7 @@ resource "aws_lambda_function" "data_engineering_exercise_rp" {
   function_name = "data-engineering-exercise-rp"
   role          = "arn:aws:iam::884919981963:role/lambda-ex"
   handler       = "main.lambda_handler"
-  runtime       = "python3.9"
+  runtime       = "python3.7"
   memory_size   = 128
   timeout       = 9
 
@@ -31,7 +31,9 @@ resource "aws_lambda_function" "data_engineering_exercise_rp" {
 
   # Layers: Using existing layers
   layers = [
-    "arn:aws:lambda:us-west-2:884919981963:layer:dataenggLayer:1"
+    "arn:aws:lambda:us-west-2:884919981963:layer:dataenggLayer2:1",
+    "arn:aws:lambda:us-west-2:898466741470:layer:psycopg2-py38:1",
+    "arn:aws:lambda:us-west-2:884919981963:layer:sqlal_cockrack:1"
   ]
 
   ephemeral_storage {
