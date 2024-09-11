@@ -52,11 +52,9 @@ resource "aws_lambda_function" "data_engineering_exercise_rp" {
 
   environment {
     variables = {
-      EXAMPLE_ENV_VAR = "example-value"
+      DB_URL = "This_will_change"
     }
   }
-
-  # i have .envfile can you add that
 
   # Force a new version to be published
   publish = true
