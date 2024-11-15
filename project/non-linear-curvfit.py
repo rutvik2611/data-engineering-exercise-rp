@@ -4,6 +4,7 @@ Created on Thu Nov 14 22:36:32 2024
 
 @author: syada27
 """
+import os
 
 import numpy as np
 import pandas as pd
@@ -22,13 +23,19 @@ def model_func(x, c1, c2, b):
 
 # Function to load data from a file
 def load_data():
-    Tk().withdraw()  # Hide the main Tkinter window
-    file_path = filedialog.askopenfilename(title="Select data file",
-                                           filetypes=[("Text files", "*.txt"), ("CSV files", "*.csv"),
-                                                      ("All files", "*.*")])
-    if not file_path:
-        print("No file selected.")
-        return None, None, None
+    default_file = "New S1 50nm.txt"
+
+    if os.path.exists(default_file):
+        file_path = default_file
+        print(f"Loading default file: {file_path}")
+    else:
+        Tk().withdraw()  # Hide the main Tkinter window
+        file_path = filedialog.askopenfilename(title="Select data file",
+                                               filetypes=[("Text files", "*.txt"), ("CSV files", "*.csv"),
+                                                          ("All files", "*.*")])
+        if not file_path:
+            print("No file selected.")
+            return None, None, None
 
     data = pd.read_table(file_path, delim_whitespace=True, header=None)
     x_data = data.iloc[:, 0].values  # First column (1/Temp)
@@ -37,20 +44,27 @@ def load_data():
 
     return x_data, y_data, y_error
 
-
-# Load the data
-x_data, y_data, y_error = load_data()
-
-
 # Perform the curve fitting
 def fit_model(x, y, y_error):
     popt, pcov = curve_fit(model_func, x, y, sigma=y_error, absolute_sigma=True)
     return popt, pcov
 
 
+
+# Load the data
+x_data, y_data, y_error = load_data()
+
 # Create a Bokeh plot
 plot = figure(title="Fitted Model", x_axis_label="1/Temp (1/Kelvin)", y_axis_label="Intensity Ratio",
               tools="pan,box_zoom,reset,wheel_zoom")
+
+
+print(type(plot))
+# <class 'bokeh.plotting._figure.figure'>
+print(plot)
+
+
+
 
 # Initially fit the model on the whole data
 popt, pcov = fit_model(x_data, y_data, y_error)

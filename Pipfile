@@ -10,6 +10,12 @@ boto3 = "*"
 python-dotenv = "*"
 sqlalchemy-cockroachdb = "*"
 psycopg2-binary = "*"
+numpy = "*"
+pandas = "*"
+bokeh = "*"
+scipy = "*"
+dash = "*"
+streamlit = "*"
 
 [dev-packages]
 
